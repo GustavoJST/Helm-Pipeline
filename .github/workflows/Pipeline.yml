@@ -44,4 +44,4 @@ jobs:
           run: helm upgrade -i nginx-helm-pipeline-gustavo ./nginx-helm-pipeline-gustavo --create-namespace -n gustavo-justo --dry-run
 
         - name: Deploy Helm chart to namespace in cluster.
-          run: helm upgrade -i nginx-helm-pipeline-gustavo ./nginx-helm-pipeline-gustavo --create-namespace -n gustavo-justo --atomic --force
+          run: helm upgrade -i nginx-helm-pipeline-gustavo ./nginx-helm-pipeline-gustavo --create-namespace -n gustavo-justo --atomic
