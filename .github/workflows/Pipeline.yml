@@ -35,13 +35,13 @@ jobs:
       steps:
         - uses: actions/checkout@v3
 
-        - name: Set KUBECONFIG variable.
+        - name: Set KUBECONFIG environment variable
           run: |
             mkdir ${HOME}/.kube
             echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > ${HOME}/.kube/config
 
-        - name: Dry run before deployment.
+        - name: Dry run before deployment
           run: helm upgrade -i nginx-helm-pipeline-gustavo ./nginx-helm-pipeline-gustavo --create-namespace -n gustavo-justo --dry-run
 
-        - name: Deploy Helm chart to namespace in cluster.
+        - name: Deploy Helm chart to namespace in cluster
           run: helm upgrade -i nginx-helm-pipeline-gustavo ./nginx-helm-pipeline-gustavo --create-namespace -n gustavo-justo --atomic
