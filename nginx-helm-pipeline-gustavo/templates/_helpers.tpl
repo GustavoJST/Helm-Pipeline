@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "nginx-desafio-helm-gustavo.name" -}}
+{{- define "nginx-helm-pipeline-gustavo.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "nginx-desafio-helm-gustavo.fullname" -}}
+{{- define "nginx-helm-pipeline-gustavo.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "nginx-desafio-helm-gustavo.chart" -}}
+{{- define "nginx-helm-pipeline-gustavo.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "nginx-desafio-helm-gustavo.labels" -}}
-helm.sh/chart: {{ include "nginx-desafio-helm-gustavo.chart" . }}
-{{ include "nginx-desafio-helm-gustavo.selectorLabels" . }}
+{{- define "nginx-helm-pipeline-gustavo.labels" -}}
+helm.sh/chart: {{ include "nginx-helm-pipeline-gustavo.chart" . }}
+{{ include "nginx-helm-pipeline-gustavo.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,17 +45,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "nginx-desafio-helm-gustavo.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "nginx-desafio-helm-gustavo.name" . }}
+{{- define "nginx-helm-pipeline-gustavo.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "nginx-helm-pipeline-gustavo.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "nginx-desafio-helm-gustavo.serviceAccountName" -}}
+{{- define "nginx-helm-pipeline-gustavo.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "nginx-desafio-helm-gustavo.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "nginx-helm-pipeline-gustavo.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
