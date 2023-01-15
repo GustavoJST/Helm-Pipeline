@@ -8,6 +8,7 @@ on:
 
 jobs:
   build-and-push-image:
+    name: Build and push image to Dockerhub
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU
@@ -25,25 +26,24 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: .
-          file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/nginx-helm-pipeline:latest
 
 
   deploy:
-      needs: build-and-push-image
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v3
+    needs: build-and-push-image
+    name: Deploy helm chart with image to K8s cluster
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
 
-        - name: Set KUBECONFIG environment variable
-          run: |
-            mkdir ${HOME}/.kube
-            echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > ${HOME}/.kube/config
+      - name: Set KUBECONFIG environment variable
+        run: |
+          mkdir ${HOME}/.kube
+          echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > ${HOME}/.kube/config
 
-        - name: Dry run before deployment
-          run: helm upgrade -i nginx-helm-pipeline-gustavo ./nginx-helm-pipeline-gustavo --create-namespace -n gustavo-justo --dry-run
+      - name: Dry run before deployment
+        run: helm upgrade -i nginx-helm-pipeline-gustavo ./nginx-helm-pipeline-gustavo --create-namespace -n gustavo-justo --dry-run
 
-        - name: Deploy Helm chart to namespace in cluster
-          run: helm upgrade -i nginx-helm-pipeline-gustavo ./nginx-helm-pipeline-gustavo --create-namespace -n gustavo-justo --atomic
+      - name: Deploy Helm chart to namespace in cluster
+        run: helm upgrade -i nginx-helm-pipeline-gustavo ./nginx-helm-pipeline-gustavo --create-namespace -n gustavo-justo --atomic
