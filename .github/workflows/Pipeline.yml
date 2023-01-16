@@ -42,8 +42,5 @@ jobs:
           mkdir ${HOME}/.kube
           echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > ${HOME}/.kube/config
 
-      - name: Dry run before deployment
-        run: helm upgrade -i nginx-helm-pipeline-gustavo ./nginx-helm-pipeline-gustavo --create-namespace -n gustavo-justo --dry-run
-
       - name: Deploy Helm chart to namespace in cluster
         run: helm upgrade -i nginx-helm-pipeline-gustavo ./nginx-helm-pipeline-gustavo --create-namespace -n gustavo-justo --atomic
